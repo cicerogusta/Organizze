@@ -33,7 +33,7 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Nome"
+        android:hint="Nome"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/editEmailRegistro"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Email"
+        android:hint="Email"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toTopOf="@+id/editSenhaRegistro"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,15 +71,15 @@
         android:drawablePadding="8dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Senha"
+        android:hint="Senha"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCadastrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmailRegistro" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCadastrar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -105,5 +105,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCadastrar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
