@@ -1,5 +1,6 @@
 package com.example.organizze.data.repository
 
+import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
 
@@ -8,4 +9,6 @@ interface FirebaseRepository {
     fun registerUser(user: User, result: (UiState<String>) -> Unit)
     fun getUserId(): String?
     fun isCurrentUser(): Boolean
+    fun saveExpanse(movimentacao: Movimentacao)
+
 }

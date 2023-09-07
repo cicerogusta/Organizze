@@ -1,9 +1,11 @@
 package com.example.organizze.data.repository
 
 import android.util.Log
+import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
 import com.example.organizze.util.codificarBase64
+import com.example.organizze.util.mesAnoDataEscolhida
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -26,7 +28,7 @@ class FirebaseRepositoryImp(
                 var exception = ""
                 try {
                     throw it.exception!!
-                }catch (e: FirebaseAuthWeakPasswordException) {
+                } catch (e: FirebaseAuthWeakPasswordException) {
                     exception = "Digite uma senha mais forte!"
                     result.invoke(UiState.Failure(exception))
                 } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -103,6 +105,15 @@ class FirebaseRepositoryImp(
 
         }
         return isCurrentUser
+    }
+
+    override fun saveExpanse(movimentacao: Movimentacao) {
+        val idUsuario = getUserId()
+        val mesAno = mesAnoDataEscolhida(movimentacao.data)
+        if (idUsuario != null) {
+            database.reference.child("movimentacao")
+                .child(idUsuario).child(mesAno).push().setValue(movimentacao)
+        }
     }
 
 }
