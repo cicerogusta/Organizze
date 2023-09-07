@@ -1,5 +1,6 @@
 package com.example.organizze.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.organizze.base.BaseActivity
@@ -49,9 +50,15 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, ActivityLoginBinding>
 
                 is UiState.Success -> {
                     toast(state.data)
+                    abrirTelaPrincipal()
                 }
             }
         }
+    }
+
+    private fun abrirTelaPrincipal() {
+        startActivity(Intent(this, PrincipalActivity::class.java))
+        finish()
     }
 
     private fun verificaCamposLogin(): Boolean {

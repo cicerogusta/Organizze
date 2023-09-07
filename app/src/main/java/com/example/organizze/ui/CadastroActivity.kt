@@ -1,5 +1,6 @@
 package com.example.organizze.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -71,11 +72,16 @@ class CadastroActivity : BaseActivity<CadastroActivityViewModel, ActivityCadastr
                 }
 
                 is UiState.Success -> {
-//                    binding.loginProgress.hide()
+                    abrirTelaPrincipal()
                     toast(state.data)
                 }
             }
         }
+    }
+
+    private fun abrirTelaPrincipal() {
+        startActivity(Intent(this, PrincipalActivity::class.java))
+        finish()
     }
 
 }
