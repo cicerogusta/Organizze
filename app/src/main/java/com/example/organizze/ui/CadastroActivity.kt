@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.organizze.base.BaseActivity
+import com.example.organizze.data.model.User
 import com.example.organizze.databinding.ActivityCadastroBinding
+import com.example.organizze.util.UiState
+import com.example.organizze.util.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CadastroActivity : BaseActivity<CadastroActivityViewModel, ActivityCadastroBinding>() {
     override val viewModel: CadastroActivityViewModel by viewModels()
     override fun getViewBinding(): ActivityCadastroBinding =
@@ -18,7 +23,7 @@ class CadastroActivity : BaseActivity<CadastroActivityViewModel, ActivityCadastr
 
     override fun setupClickListener() {
         binding.buttonCadastrar.setOnClickListener {
-            if (verificaCamposRegistro()) cadastrarUsuario()
+            cadastrarUsuario()
         }
     }
 
@@ -28,21 +33,49 @@ class CadastroActivity : BaseActivity<CadastroActivityViewModel, ActivityCadastr
                 if (binding.editSenhaRegistro.text.toString().isNotEmpty()) {
                     true
                 } else {
-                    Toast.makeText(this, "Preencha a senha", Toast.LENGTH_SHORT).show()
+                    toast("Preencha a senha")
                     false
                 }
             } else {
-                Toast.makeText(this, "Preencha o email!", Toast.LENGTH_SHORT).show()
+                toast("Preencha o email!")
                 false
             }
         } else {
-            Toast.makeText(this, "Preencha o nome!", Toast.LENGTH_SHORT).show()
+            toast("Preencha o nome!")
             return false
         }
     }
 
     private fun cadastrarUsuario() {
+        if (verificaCamposRegistro()) {
+            val usuario = User(
+                nome = binding.editNomeRegistro.text.toString(),
+                email = binding.editEmailRegistro.text.toString(),
+                senha = binding.editSenhaRegistro.text.toString()
+            )
+            viewModel.cadastrarUsuario(usuario)
+            resultadoRegistro()
+        }
+    }
 
+    private fun resultadoRegistro() {
+        viewModel.register.observe(this) { state ->
+            when (state) {
+                is UiState.Loading -> {
+//                    binding.loginProgress.show()
+                }
+
+                is UiState.Failure -> {
+//                    binding.loginProgress.hide()
+                    toast(state.error)
+                }
+
+                is UiState.Success -> {
+//                    binding.loginProgress.hide()
+                    toast(state.data)
+                }
+            }
+        }
     }
 
 }

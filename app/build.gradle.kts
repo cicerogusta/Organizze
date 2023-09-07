@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -46,10 +47,15 @@ android {
 dependencies {
 
     //ktx android
-    implementation ("androidx.core:core-ktx:1.0.2")
-    implementation ("androidx.fragment:fragment-ktx:1.0.0")
-    implementation ("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    implementation ("androidx.activity:activity-ktx:1.3.1")
+    implementation ("androidx.core:core-ktx:1.10.1")
+    implementation ("androidx.fragment:fragment-ktx:1.6.1")
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation ("androidx.activity:activity-ktx:1.7.2")
+
+//    hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -61,4 +67,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+kapt {
+    correctErrorTypes = true
 }

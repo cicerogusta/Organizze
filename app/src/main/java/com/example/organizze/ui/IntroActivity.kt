@@ -6,7 +6,9 @@ import android.view.View
 import com.example.organizze.R
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IntroActivity : IntroActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
