@@ -1,5 +1,6 @@
 package com.example.organizze.ui
 
+import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.organizze.base.BaseActivity
 import com.example.organizze.data.model.User
@@ -15,6 +16,10 @@ class LoginActivity : BaseActivity<LoginActivityViewModel, ActivityLoginBinding>
     override fun getViewBinding(): ActivityLoginBinding =
         ActivityLoginBinding.inflate(layoutInflater)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupClickListener()
+    }
     override fun setupClickListener() {
         binding.buttonLogin.setOnClickListener {
             if (verificaCamposLogin()) {
