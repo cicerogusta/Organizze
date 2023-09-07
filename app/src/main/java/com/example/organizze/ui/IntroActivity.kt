@@ -3,6 +3,7 @@ package com.example.organizze.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import com.example.organizze.R
 import com.heinrichreimersoftware.materialintro.app.IntroActivity
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
@@ -10,6 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class IntroActivity : IntroActivity() {
+
+    private val viewModel: IntroActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         configuraSlides()
@@ -62,5 +65,17 @@ class IntroActivity : IntroActivity() {
                 .canGoForward(false)
                 .build()
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.verificaUsuarioAtual()) {
+            abrirTelaPrincipal()
+        }
+    }
+
+    private fun abrirTelaPrincipal() {
+        startActivity(Intent(this, PrincipalActivity::class.java))
+        finish()
     }
 }
