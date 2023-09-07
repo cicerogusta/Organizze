@@ -11,13 +11,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Organizze"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.DespesasActivity" android:theme="@style/despesaTheme"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ReceitasActivity" android:theme="@style/receitaTheme"
+            android:exported="false" />
         <activity
             android:name=".ui.PrincipalActivity"
             android:exported="false"
             android:label="@string/title_activity_principal"
-            android:theme="@style/Theme.Organizze" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.CadastroActivity"
             android:exported="false" />
