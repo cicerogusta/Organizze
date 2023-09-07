@@ -7,4 +7,5 @@ interface FirebaseRepository {
     fun loginUser(email: String, senha: String, result: (UiState<String>) -> Unit)
     fun registerUser(user: User, result: (UiState<String>) -> Unit)
     fun getUserId(): String?
+    fun isCurrentUser(): Boolean
 }
