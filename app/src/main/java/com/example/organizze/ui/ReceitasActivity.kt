@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.organizze.base.BaseActivity
 import com.example.organizze.databinding.ActivityReceitasBinding
+import com.example.organizze.util.dataAtual
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -12,6 +13,7 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.editDataReceitas.setText(dataAtual())
         setupClickListener()
     }
 
