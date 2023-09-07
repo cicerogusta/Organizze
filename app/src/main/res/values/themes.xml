@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Organizze" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/azul_claro</item>
-         <item name="colorPrimaryDark">@color/azul_escuro</item>
-         <item name="colorAccent">@color/vermelho_claro</item>
+        <item name="colorPrimary">@color/azul_claro</item>
+        <item name="colorPrimaryDark">@color/azul_escuro</item>
+        <item name="colorAccent">@color/vermelho_claro</item>
     </style>
 
     <style name="Theme.Organizze" parent="Base.Theme.Organizze" />
