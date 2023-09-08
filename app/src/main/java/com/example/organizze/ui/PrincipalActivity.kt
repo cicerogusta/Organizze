@@ -1,5 +1,6 @@
 package com.example.organizze.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -12,10 +13,15 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrincipalBinding>() {
     override val viewModel: PrincipalActivityViewModel by viewModels()
+    private var despesaTotal = 0.0
+    private var receitaTotal = 0.0
+    private var resumoUsuario = 0.0
+
 
     override fun getViewBinding(): ActivityPrincipalBinding =
         ActivityPrincipalBinding.inflate(layoutInflater)
@@ -26,6 +32,23 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         configuraCalendarView()
         binding.toolbar.title = "Organizze"
         setSupportActionBar(binding.toolbar)
+        recuperarResumoUsuario()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun recuperarResumoUsuario() {
+        viewModel.user.observe(this) {
+
+            despesaTotal = it.despesaTotal
+            receitaTotal = it.receitaTotal
+            resumoUsuario = receitaTotal - despesaTotal
+
+            val decimalFormat = DecimalFormat("0.##")
+            val resultadoFormatado = decimalFormat.format(resumoUsuario)
+
+            binding.content.textSaudacao.text = "Olá, ${it.nome}"
+            binding.content.textSaldo.text = "R$ $resultadoFormatado"
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -85,6 +108,11 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         binding.content.calendarView.setTitleMonths(listaMeses)
         binding.content.calendarView.setOnMonthChangedListener { widget, date ->  }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.recuperarUsuario()
     }
 
 }
