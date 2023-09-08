@@ -168,4 +168,11 @@ class FirebaseRepositoryImp(
         usuarioRef?.child("despesaTotal")?.setValue(despesaAtualizada)
     }
 
+    override fun updateRecipe(receitaAtualizada: Double) {
+        val idUsuario = getUserId()
+        val usuarioRef = idUsuario?.let { database.reference.child("usuarios").child(it) }
+
+        usuarioRef?.child("receitaTotal")?.setValue(receitaAtualizada)
+    }
+
 }
