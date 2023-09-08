@@ -15,5 +15,6 @@ interface FirebaseRepository {
     fun getUser(mtbUser: MutableLiveData<User>)
     fun updateExpense(despesaAtualizada: Double)
     fun updateRecipe(receitaAtualizada: Double)
+    fun logout()
 
 }

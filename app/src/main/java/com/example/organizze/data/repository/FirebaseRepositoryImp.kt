@@ -175,4 +175,8 @@ class FirebaseRepositoryImp(
         usuarioRef?.child("receitaTotal")?.setValue(receitaAtualizada)
     }
 
+    override fun logout() {
+        auth.signOut()
+    }
+
 }

@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.PrincipalActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
+<layout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        tools:context=".ui.PrincipalActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <include layout="@layout/content_principal" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="10dp"
-        fab:menu_icon="@drawable/ic_adicionar_24"
-        app:menu_colorNormal="@color/colorAccent"
-        app:menu_colorPressed="@color/colorAccent"
-        >
+        <include layout="@layout/content_principal"
+            android:id="@+id/content"/>
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_despesa"
-            android:onClick="adicionarDespesa"
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_adicionar_24"
-            fab:fab_colorNormal="@color/colorPrimaryDespesa"
-            fab:fab_label="Despesa"
-            fab:fab_size="mini"
-            />
+            android:layout_gravity="end|bottom"
+            android:layout_margin="10dp"
+            fab:menu_icon="@drawable/ic_adicionar_24"
+            app:menu_colorNormal="@color/colorAccent"
+            app:menu_colorPressed="@color/colorAccent"
+            >
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_receita"
-            android:onClick="adicionarReceita"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_adicionar_24"
-            fab:fab_colorNormal="@color/colorPrimaryReceita"
-            fab:fab_label="Receita"
-            fab:fab_size="mini"
-            />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/menu_despesa"
+                android:onClick="adicionarDespesa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_adicionar_24"
+                fab:fab_colorNormal="@color/colorPrimaryDespesa"
+                fab:fab_label="Despesa"
+                fab:fab_size="mini"
+                />
 
-    </com.github.clans.fab.FloatingActionMenu>
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/menu_receita"
+                android:onClick="adicionarReceita"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_adicionar_24"
+                fab:fab_colorNormal="@color/colorPrimaryReceita"
+                fab:fab_label="Receita"
+                fab:fab_size="mini"
+                />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

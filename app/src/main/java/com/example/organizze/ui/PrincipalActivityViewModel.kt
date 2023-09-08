@@ -8,4 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PrincipalActivityViewModel @Inject constructor(private val repository: FirebaseRepository) :
     ViewModel() {
+    fun sair() {
+        repository.logout()
+    }
 }
