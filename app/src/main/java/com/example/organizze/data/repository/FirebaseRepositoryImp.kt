@@ -12,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class FirebaseRepositoryImp(
     private val auth: FirebaseAuth,
@@ -107,12 +110,38 @@ class FirebaseRepositoryImp(
         return isCurrentUser
     }
 
-    override fun saveExpanse(movimentacao: Movimentacao) {
+    override fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit) {
         val idUsuario = getUserId()
         val mesAno = mesAnoDataEscolhida(movimentacao.data)
         if (idUsuario != null) {
-            database.reference.child("movimentacao")
+            val movimentacaoRef = database.reference.child("movimentacao")
                 .child(idUsuario).child(mesAno).push().setValue(movimentacao)
+
+            movimentacaoRef.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (movimentacao.tipo == "r") {
+                        result.invoke(UiState.Success("Receita adicionada com sucesso"))
+                    } else {
+                        if (movimentacao.tipo == "d") {
+                            result.invoke(UiState.Success("Despesa adicionada com sucesso"))
+                        }
+                    }
+                } else {
+                    if (movimentacao.tipo == "r") {
+                        result.invoke(UiState.Failure("Não foi possivel adicionar receita"))
+
+                    } else {
+                        if (movimentacao.tipo == "d") {
+                            result.invoke(UiState.Failure("Não foi possivel adicionar despesa"))
+
+                        }
+                    }
+
+                }
+            }
+
+
+
         }
     }
 

@@ -9,6 +9,6 @@ interface FirebaseRepository {
     fun registerUser(user: User, result: (UiState<String>) -> Unit)
     fun getUserId(): String?
     fun isCurrentUser(): Boolean
-    fun saveExpanse(movimentacao: Movimentacao)
+    fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit)
 
 }
