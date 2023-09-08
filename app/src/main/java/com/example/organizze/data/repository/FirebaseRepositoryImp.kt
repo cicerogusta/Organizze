@@ -1,6 +1,7 @@
 package com.example.organizze.data.repository
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
@@ -143,6 +144,28 @@ class FirebaseRepositoryImp(
 
 
         }
+    }
+
+    override fun getUser(mtbUser: MutableLiveData<User>) {
+        val idUsuario = getUserId()
+        idUsuario?.let { database.reference.child("usuarios").child(it) }
+            ?.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val usuario = snapshot.getValue(User::class.java)
+                    mtbUser.postValue(usuario)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+    }
+
+    override fun updateExpense(despesaAtualizada: Double) {
+        val idUsuario = getUserId()
+        val usuarioRef = idUsuario?.let { database.reference.child("usuarios").child(it) }
+
+        usuarioRef?.child("despesaTotal")?.setValue(despesaAtualizada)
     }
 
 }

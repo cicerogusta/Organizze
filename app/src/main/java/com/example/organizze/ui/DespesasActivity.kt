@@ -13,10 +13,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesasBinding>() {
     override val viewModel: DespesasActivityViewModel by viewModels()
+    private var despesaTotal: Double = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.editDataDespesas.setText(dataAtual())
+        recuperarDespesaTotal()
         setupClickListener()
     }
 
@@ -57,15 +60,22 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
     }
 
     private fun salvarDespesa() {
+        val valorRecuperado = binding.editTotalDespasas.text.toString().toDouble()
         val movimentacao = Movimentacao(
             binding.editDataDespesas.text.toString(),
             binding.editCategoriaDespesas.text.toString(),
             binding.editDescricaoDespesas.text.toString(),
             "d",
-            binding.editTotalDespasas.text.toString().toDouble()
+            valorRecuperado
         )
+        val despesaAtualizada = despesaTotal + valorRecuperado
+        atualizarDespesa(despesaAtualizada)
         viewModel.salvarDespesa(movimentacao)
         resultadoSalvarDespesa()
+    }
+
+    private fun atualizarDespesa(despesaAtualizada: Double) {
+        viewModel.atualizarDespesa(despesaAtualizada)
     }
 
     private fun resultadoSalvarDespesa() {
@@ -83,6 +93,17 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
                 }
             }
         }
+    }
+
+    private fun recuperarDespesaTotal() {
+        viewModel.user.observe(this) {
+            despesaTotal = it.despesaTotal
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.retornaUsuario()
     }
 
 }

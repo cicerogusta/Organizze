@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.organizze.data.model.Movimentacao
+import com.example.organizze.data.model.User
 import com.example.organizze.data.repository.FirebaseRepository
 import com.example.organizze.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +14,9 @@ import javax.inject.Inject
 class DespesasActivityViewModel @Inject constructor(private val repository: FirebaseRepository) :
     ViewModel() {
     private val _movimentacaoDespesas = MutableLiveData<UiState<String>>()
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User>
+        get() = _user
     val movimentacaoDespesas: LiveData<UiState<String>>
         get() = _movimentacaoDespesas
     fun salvarDespesa(movimentacao: Movimentacao) {
@@ -22,5 +26,13 @@ class DespesasActivityViewModel @Inject constructor(private val repository: Fire
         ) {
             _movimentacaoDespesas.value = it
         }
+    }
+
+    fun retornaUsuario() {
+         repository.getUser(_user)
+    }
+
+    fun atualizarDespesa(despesaAtualizada: Double) {
+        repository.updateExpense(despesaAtualizada)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.organizze.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
@@ -10,5 +11,8 @@ interface FirebaseRepository {
     fun getUserId(): String?
     fun isCurrentUser(): Boolean
     fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit)
+
+    fun getUser(mtbUser: MutableLiveData<User>)
+    fun updateExpense(despesaAtualizada: Double)
 
 }
