@@ -16,10 +16,6 @@ class LoginActivityViewModel @Inject constructor(private val repository: Firebas
     val login: LiveData<UiState<String>>
         get() = _login
 
-    private val _currentUser = MutableLiveData<Boolean>()
-    val currentUser: LiveData<Boolean>
-        get() = _currentUser
-
     fun login(
         email: String,
         senha: String
@@ -30,9 +26,5 @@ class LoginActivityViewModel @Inject constructor(private val repository: Firebas
         ) {
             _login.value = it
         }
-    }
-
-    fun getCurrentUser() {
-        _currentUser.value = repository.isCurrentUser()
     }
 }
