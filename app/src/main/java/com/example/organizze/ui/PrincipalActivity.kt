@@ -9,9 +9,6 @@ import androidx.activity.viewModels
 import com.example.organizze.R
 import com.example.organizze.base.BaseActivity
 import com.example.organizze.databinding.ActivityPrincipalBinding
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
@@ -113,6 +110,12 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
     override fun onStart() {
         super.onStart()
         viewModel.recuperarUsuario()
+        viewModel.retornaEventListenerUsuario()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.removerEventListener()
     }
 
 }

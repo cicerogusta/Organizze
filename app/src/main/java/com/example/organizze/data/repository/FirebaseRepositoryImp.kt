@@ -3,8 +3,8 @@ package com.example.organizze.data.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.organizze.data.model.Movimentacao
-import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
+import com.example.organizze.util.UiState
 import com.example.organizze.util.codificarBase64
 import com.example.organizze.util.mesAnoDataEscolhida
 import com.google.firebase.auth.FirebaseAuth
@@ -142,23 +142,25 @@ class FirebaseRepositoryImp(
             }
 
 
-
         }
     }
 
     override fun getUser(mtbUser: MutableLiveData<User>) {
-        val idUsuario = getUserId()
-        idUsuario?.let { database.reference.child("usuarios").child(it) }
-            ?.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val usuario = snapshot.getValue(User::class.java)
-                    mtbUser.postValue(usuario)
-                }
+        val idUsuario = getUserId()!!
+        val usuarioRef = database.reference.child("usuarios").child(idUsuario)
+        val eventListener = usuarioRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val usuario = snapshot.getValue(User::class.java)
+                mtbUser.postValue(usuario)
 
-                override fun onCancelled(error: DatabaseError) {
-                }
 
-            })
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+        getEventListenerUsuario(eventListener)
     }
 
     override fun updateExpense(despesaAtualizada: Double) {
@@ -177,6 +179,21 @@ class FirebaseRepositoryImp(
 
     override fun logout() {
         auth.signOut()
+    }
+
+    override fun removeValueEventListenerUsuario(mtbEventListenerUsuario: MutableLiveData<ValueEventListener>) {
+        mtbEventListenerUsuario.value?.let {
+            database.reference.child("usuarios").child(getUserId()!!).removeEventListener(
+                it
+            )
+        }
+
+
+    }
+
+    override fun getEventListenerUsuario(eventListener: ValueEventListener) {
+        val mtbEventListener = MutableLiveData<ValueEventListener>()
+        mtbEventListener.postValue(eventListener)
     }
 
 }

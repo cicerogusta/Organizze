@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.util.UiState
 import com.example.organizze.data.model.User
+import com.google.firebase.database.ValueEventListener
 
 interface FirebaseRepository {
     fun loginUser(email: String, senha: String, result: (UiState<String>) -> Unit)
@@ -16,5 +17,7 @@ interface FirebaseRepository {
     fun updateExpense(despesaAtualizada: Double)
     fun updateRecipe(receitaAtualizada: Double)
     fun logout()
+    fun removeValueEventListenerUsuario(mtbEventListenerUsuario: MutableLiveData<ValueEventListener>)
+    fun getEventListenerUsuario(eventListener: ValueEventListener)
 
 }
