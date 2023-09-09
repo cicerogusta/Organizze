@@ -191,11 +191,15 @@ class FirebaseRepositoryImp(
 
     }
 
-    override fun removeValueEventListenerMovements(mtbEventListenerMovements: MutableLiveData<ValueEventListener>, mesAnoSelecionado: String) {
+    override fun removeValueEventListenerMovements(
+        mtbEventListenerMovements: MutableLiveData<ValueEventListener>,
+        mesAnoSelecionado: String
+    ) {
         mtbEventListenerMovements.value?.let {
-            database.reference.child("movimentacao").child(getUserId()!!).child(mesAnoSelecionado).removeEventListener(
-                it
-            )
+            database.reference.child("movimentacao").child(getUserId()!!).child(mesAnoSelecionado)
+                .removeEventListener(
+                    it
+                )
         }
     }
 
@@ -211,29 +215,47 @@ class FirebaseRepositoryImp(
 
     override fun getMovements(mesAnoSelecionado: String): MutableLiveData<MutableList<Movimentacao>> {
         val liveData: MutableLiveData<MutableList<Movimentacao>> = MutableLiveData()
-        val eventListener = database.reference.child("movimentacao").child(getUserId()!!).child(mesAnoSelecionado).addValueEventListener(object : ValueEventListener {
-            val listaMovimentacoes = mutableListOf<Movimentacao>()
-            override fun onDataChange(snapshot: DataSnapshot) {
-                listaMovimentacoes.clear()
-                liveData.value?.clear()
-                for (movimentacoes in snapshot.children) {
-                    val movimentacao = movimentacoes.getValue(Movimentacao::class.java)
-                    if (movimentacao !=null) {
-                        listaMovimentacoes.add(movimentacao)
+        val eventListener =
+            database.reference.child("movimentacao").child(getUserId()!!).child(mesAnoSelecionado)
+                .addValueEventListener(object : ValueEventListener {
+                    val listaMovimentacoes = mutableListOf<Movimentacao>()
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        listaMovimentacoes.clear()
+                        liveData.value?.clear()
+                        for (movimentacoes in snapshot.children) {
+                            val movimentacao = movimentacoes.getValue(Movimentacao::class.java)
+                            movimentacao?.key = movimentacoes.key.toString()
+                            if (movimentacao != null) {
+                                listaMovimentacoes.add(movimentacao)
+
+                            }
+                        }
+                        liveData.postValue(listaMovimentacoes)
+
 
                     }
-                }
-                liveData.postValue(listaMovimentacoes)
 
+                    override fun onCancelled(error: DatabaseError) {
+                    }
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
+                })
         getEventListenerMovements(eventListener)
         return liveData
+    }
+
+    override fun removeMovement(mesAnoSelecionado: String, key: String) {
+        database.reference.child("movimentacao").child(getUserId()!!).child(mesAnoSelecionado)
+            .child(key).removeValue()
+    }
+
+    override fun updateTotalRecipe(totalRecipe: Double) {
+        database.reference.child("usuarios").child(getUserId()!!)
+            .child("receitaTotal").setValue(totalRecipe)
+    }
+
+    override fun updateTotalExpense(totalExpense: Double) {
+        database.reference.child("usuarios").child(getUserId()!!)
+            .child("despesaTotal").setValue(totalExpense)
     }
 
 }

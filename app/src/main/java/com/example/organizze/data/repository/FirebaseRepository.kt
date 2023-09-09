@@ -22,5 +22,8 @@ interface FirebaseRepository {
     fun getEventListenerUsuario(eventListener: ValueEventListener)
     fun getEventListenerMovements(eventListener: ValueEventListener)
     fun getMovements(mesAnoSelecionado: String): MutableLiveData<MutableList<Movimentacao>>
+    fun removeMovement(mesAnoSelecionado: String, key: String)
+    fun updateTotalRecipe(totalRecipe: Double)
+    fun updateTotalExpense(totalExpense: Double)
 
 }

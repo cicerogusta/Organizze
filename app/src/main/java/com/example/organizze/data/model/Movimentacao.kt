@@ -5,5 +5,6 @@ data class Movimentacao(
     val categoria: String = "",
     val descricao: String = "",
     val tipo: String = "",
-    val valor: Double = 0.0
+    val valor: Double = 0.0,
+    var key: String = ""
 )

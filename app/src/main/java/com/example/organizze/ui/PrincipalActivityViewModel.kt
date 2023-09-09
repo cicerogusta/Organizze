@@ -44,4 +44,15 @@ class PrincipalActivityViewModel @Inject constructor(private val repository: Fir
     fun retornaMovimentacoes(mesAnoSelecinado: String): MutableLiveData<MutableList<Movimentacao>> {
         return repository.getMovements(mesAnoSelecinado)
     }
+
+    fun removerMovimentacao(mesAnoSelecinado: String, key: String) {
+        repository.removeMovement(mesAnoSelecinado, key)
+    }
+    fun atualizaDespesaTotal(totalExpense: Double) {
+        repository.updateTotalExpense(totalExpense)
+    }
+
+    fun atualizaReceitaTotal(totalRecipe: Double) {
+        repository.updateTotalRecipe(totalRecipe)
+    }
 }

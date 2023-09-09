@@ -1,6 +1,7 @@
 package com.example.organizze.ui
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -8,7 +9,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.organizze.R
 import com.example.organizze.adapter.MovimentacaoAdapter
 import com.example.organizze.base.BaseActivity
@@ -47,16 +50,17 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
             listaMovimentacoes = it
             configuraRecyclerViewMovimentacao()
 
-        }
 
-        toast(mesAnoSelecionado)
+        }
     }
 
     private fun configuraRecyclerViewMovimentacao() {
         binding.content.recyclerMovimentos.apply {
             layoutManager = LinearLayoutManager(this@PrincipalActivity)
             adapter = MovimentacaoAdapter(listaMovimentacoes, this@PrincipalActivity)
+            swipe(this)
         }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -157,8 +161,73 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
 
     }
 
+    private fun swipe(recyclerView: RecyclerView) {
+        val itemTouch = object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val dragFlags = ItemTouchHelper.ACTION_STATE_IDLE
+                val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+                return makeMovementFlags(dragFlags, swipeFlags)
+            }
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                excluirMovimentacao(viewHolder)
+
+            }
+
+        }
+        ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerView)
+    }
+
+    private fun atualizarSaldo(position: Int) {
+        val movimentacao = listaMovimentacoes[position]
+        if (movimentacao.tipo == "r") {
+            receitaTotal -= movimentacao.valor
+            viewModel.atualizaReceitaTotal(receitaTotal)
+        }
+
+        if (movimentacao.tipo == "d") {
+            despesaTotal -= movimentacao.valor
+            viewModel.atualizaDespesaTotal(despesaTotal)
+        }
+    }
+
+    private fun excluirMovimentacao(viewHolder: RecyclerView.ViewHolder) {
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir Movimentação da conta")
+        alertDialog.setMessage("Você tem certeza que deseja realmente excluir essa movimentação de sua conta?")
+        alertDialog.setCancelable(false)
+        alertDialog.setPositiveButton("Confirmar") { dialog, which ->
+            val position = viewHolder.adapterPosition
+            val movimentacao = listaMovimentacoes[position]
+            viewModel.removerMovimentacao(mesAnoSelecionado, movimentacao.key)
+            binding.content.recyclerMovimentos.adapter?.notifyItemRemoved(position)
+            atualizarSaldo(position)
+            viewModel.retornaMovimentacoes(mesAnoSelecionado).value?.removeAt(position)
+
+        }
+        alertDialog.setNegativeButton("Cancelar") { dialog, which -> toast("Cancelado")}
+
+        val alert = alertDialog.create()
+        alert.show()
+
+
+
+    }
+
     override fun onStart() {
         super.onStart()
+        viewModel.retornaMovimentacoes(mesAnoSelecionado).value?.clear()
         viewModel.recuperarUsuario()
         viewModel.retornaEventListenerUsuario()
         viewModel.retornaEventListenerMovimentacao()
