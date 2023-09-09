@@ -2,6 +2,8 @@ package com.example.organizze.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +18,7 @@ import com.example.organizze.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
+
 @AndroidEntryPoint
 class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrincipalBinding>() {
     override val viewModel: PrincipalActivityViewModel by viewModels()
@@ -23,7 +26,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
     private var receitaTotal = 0.0
     private var resumoUsuario = 0.0
     private var mesAnoSelecionado = ""
-    private  var listaMovimentacoes: MutableList<Movimentacao> = mutableListOf()
+    private var listaMovimentacoes: MutableList<Movimentacao> = mutableListOf()
 
 
     override fun getViewBinding(): ActivityPrincipalBinding =
@@ -69,6 +72,19 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
 
             binding.content.textSaudacao.text = "Olá, ${it.nome}"
             binding.content.textSaldo.text = "R$ $resultadoFormatado"
+
+            if (receitaTotal > despesaTotal) {
+
+                val corReceita = resources.getColor(R.color.colorPrimaryReceita)
+                val drawable: Drawable = ColorDrawable(corReceita)
+
+                binding.content.linearLayoutUsuario.background = drawable
+            } else {
+                val corDespesa = resources.getColor(R.color.colorPrimaryDespesa)
+                val drawable: Drawable = ColorDrawable(corDespesa)
+
+                binding.content.linearLayoutUsuario.background = drawable
+            }
         }
     }
 
@@ -78,7 +94,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.menuSair -> {
                 viewModel.sair()
                 chamarIntroActivity()
@@ -86,6 +102,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun setupClickListener() {
         binding.menuDespesa.setOnClickListener {
             adicionarDespesa()
@@ -103,6 +120,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
     private fun adicionarReceita() {
         startActivity(Intent(this, ReceitasActivity::class.java))
     }
+
     private fun chamarIntroActivity() {
         startActivity(Intent(this, IntroActivity::class.java))
         finish()
@@ -131,7 +149,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         var mesSelecionado = String.format("%02d", (dataAtual.month))
         mesAnoSelecionado = mesSelecionado + "" + dataAtual.year.toString()
         binding.content.calendarView.setOnMonthChangedListener { widget, date ->
-           mesSelecionado = String.format("%02d", (date.month))
+            mesSelecionado = String.format("%02d", (date.month))
             mesAnoSelecionado = mesSelecionado + "" + date.year.toString()
             viewModel.removerEventListenerMovimentacao()
             recuperarListaMovimentacoes()
