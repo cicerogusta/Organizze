@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.organizze.R
+import com.example.organizze.adapter.MovimentacaoAdapter
 import com.example.organizze.base.BaseActivity
+import com.example.organizze.data.model.Movimentacao
 import com.example.organizze.databinding.ActivityPrincipalBinding
+import com.example.organizze.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
@@ -18,6 +22,8 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
     private var despesaTotal = 0.0
     private var receitaTotal = 0.0
     private var resumoUsuario = 0.0
+    private var mesAnoSelecionado = ""
+    private  var listaMovimentacoes: MutableList<Movimentacao> = mutableListOf()
 
 
     override fun getViewBinding(): ActivityPrincipalBinding =
@@ -30,6 +36,24 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         binding.toolbar.title = "Organizze"
         setSupportActionBar(binding.toolbar)
         recuperarResumoUsuario()
+        recuperarListaMovimentacoes()
+    }
+
+    private fun recuperarListaMovimentacoes() {
+        viewModel.retornaMovimentacoes(mesAnoSelecionado).observe(this) {
+            listaMovimentacoes = it
+            configuraRecyclerViewMovimentacao()
+
+        }
+
+        toast(mesAnoSelecionado)
+    }
+
+    private fun configuraRecyclerViewMovimentacao() {
+        binding.content.recyclerMovimentos.apply {
+            layoutManager = LinearLayoutManager(this@PrincipalActivity)
+            adapter = MovimentacaoAdapter(listaMovimentacoes, this@PrincipalActivity)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -101,9 +125,17 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
             "Dezembro"
         )
 
-
-        binding.content.calendarView.setTitleMonths(listaMeses)
-        binding.content.calendarView.setOnMonthChangedListener { widget, date ->  }
+        val calendarView = binding.content.calendarView
+        calendarView.setTitleMonths(listaMeses)
+        val dataAtual = calendarView.currentDate
+        var mesSelecionado = String.format("%02d", (dataAtual.month))
+        mesAnoSelecionado = mesSelecionado + "" + dataAtual.year.toString()
+        binding.content.calendarView.setOnMonthChangedListener { widget, date ->
+           mesSelecionado = String.format("%02d", (date.month))
+            mesAnoSelecionado = mesSelecionado + "" + date.year.toString()
+            viewModel.removerEventListenerMovimentacao()
+            recuperarListaMovimentacoes()
+        }
 
     }
 
@@ -111,11 +143,13 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         super.onStart()
         viewModel.recuperarUsuario()
         viewModel.retornaEventListenerUsuario()
+        viewModel.retornaEventListenerMovimentacao()
+        viewModel.retornaMovimentacoes(mesAnoSelecionado)
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.removerEventListener()
+        viewModel.removerEventListenerUsuario()
     }
 
 }

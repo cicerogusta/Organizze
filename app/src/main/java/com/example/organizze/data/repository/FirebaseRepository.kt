@@ -18,6 +18,9 @@ interface FirebaseRepository {
     fun updateRecipe(receitaAtualizada: Double)
     fun logout()
     fun removeValueEventListenerUsuario(mtbEventListenerUsuario: MutableLiveData<ValueEventListener>)
+    fun removeValueEventListenerMovements(mtbEventListenerMovements: MutableLiveData<ValueEventListener>, mesAnoSelecionado: String)
     fun getEventListenerUsuario(eventListener: ValueEventListener)
+    fun getEventListenerMovements(eventListener: ValueEventListener)
+    fun getMovements(mesAnoSelecionado: String): MutableLiveData<MutableList<Movimentacao>>
 
 }
