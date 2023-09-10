@@ -18,7 +18,7 @@ class CadastroActivityViewModel @Inject constructor(private val repository: Fire
         get() = _register
 
     fun cadastrarUsuario(user: User) {
-        _register.value = UiState.Loading
+//        _register.value = UiState.Loading
         repository.registerUser(user) {
 
             _register.value = it
