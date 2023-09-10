@@ -54,6 +54,7 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.6.1")
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation ("androidx.activity:activity-ktx:1.7.2")
+    implementation ("com.google.android.gms:play-services-ads:22.3.0")
 
 //    hilt
     implementation("com.google.dagger:hilt-android:2.48")

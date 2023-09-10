@@ -39,7 +39,10 @@ class MovimentacaoAdapter(
             }
         }
 
+
+
     }
+
 
     override fun getItemCount(): Int {
         return listaMovimentacao.size

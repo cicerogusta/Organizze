@@ -18,6 +18,8 @@ import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.databinding.ActivityPrincipalBinding
 import com.cicerodev.yourmoney.util.toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 
@@ -43,6 +45,15 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         setSupportActionBar(binding.toolbar)
         recuperarResumoUsuario()
         recuperarListaMovimentacoes()
+        inicializarAnuncio()
+    }
+
+    private fun inicializarAnuncio() {
+        MobileAds.initialize(this) {}
+
+        val mAdView = binding.content.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     private fun recuperarListaMovimentacoes() {
