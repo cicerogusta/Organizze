@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Organizze</string>
+    <string name="app_name">YourMoney</string>
     <string name="title_activity_principal">PrincipalActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

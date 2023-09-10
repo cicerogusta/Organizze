@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.organizze"
+    namespace = "com.cicerodev.yourmoney"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.organizze"
+        applicationId = "com.cicerodev.yourmoney"
         minSdk = 26
         targetSdk = 33
         versionCode = 1
