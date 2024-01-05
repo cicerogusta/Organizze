@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ import com.cicerodev.yourmoney.util.toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
+import de.timonknispel.ktloadingbutton.KTLoadingButton
 import java.text.DecimalFormat
 
 
@@ -46,6 +48,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         recuperarResumoUsuario()
         recuperarListaMovimentacoes()
         inicializarAnuncio()
+
     }
 
     private fun inicializarAnuncio() {
@@ -79,30 +82,58 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
 
     @SuppressLint("SetTextI18n")
     private fun recuperarResumoUsuario() {
-        viewModel.user.observe(this) {
+        binding.content.textSaudacao.visibility = View.GONE
+        binding.content.textSaldo.visibility = View.GONE
+        viewModel.user.observe(this) { currentUser ->
 
-            despesaTotal = it.despesaTotal
-            receitaTotal = it.receitaTotal
-            resumoUsuario = receitaTotal - despesaTotal
 
-            val decimalFormat = DecimalFormat("0.##")
-            val resultadoFormatado = decimalFormat.format(resumoUsuario)
+            binding.content.testButton.startLoading()
+            if (currentUser != null) {
 
-            binding.content.textSaudacao.text = "Olá, ${it.nome}"
-            binding.content.textSaldo.text = "R$ $resultadoFormatado"
 
-            if (receitaTotal > despesaTotal) {
+                binding.content.testButton.postDelayed({
+                    binding.content.testButton.doResult(true)
+                    binding.content.testButton.postDelayed({
+                        binding.content.testButton.visibility = View.GONE
+                        binding.content.textSaudacao.visibility = View.VISIBLE
+                        binding.content.textSaldo.visibility = View.VISIBLE
 
-                val corReceita = resources.getColor(R.color.colorPrimaryReceita)
-                val drawable: Drawable = ColorDrawable(corReceita)
 
-                binding.content.linearLayoutUsuario.background = drawable
-            } else {
-                val corDespesa = resources.getColor(R.color.colorPrimaryDespesa)
-                val drawable: Drawable = ColorDrawable(corDespesa)
+                    }, 2000)
 
-                binding.content.linearLayoutUsuario.background = drawable
+                }, 2000)
+
+
+
+
+
+
+                despesaTotal = currentUser.despesaTotal
+                receitaTotal = currentUser.receitaTotal
+                resumoUsuario = receitaTotal - despesaTotal
+
+                val decimalFormat = DecimalFormat("0.##")
+                val resultadoFormatado = decimalFormat.format(resumoUsuario)
+
+                binding.content.textSaudacao.text = "Olá, ${currentUser.nome}"
+                binding.content.textSaldo.text = "R$ $resultadoFormatado"
+
+                if (receitaTotal > despesaTotal) {
+
+                    val corReceita = resources.getColor(R.color.colorPrimaryReceita)
+                    val drawable: Drawable = ColorDrawable(corReceita)
+
+                    binding.content.linearLayoutUsuario.background = drawable
+                } else {
+                    val corDespesa = resources.getColor(R.color.colorPrimaryDespesa)
+                    val drawable: Drawable = ColorDrawable(corDespesa)
+
+                    binding.content.linearLayoutUsuario.background = drawable
+                }
+
             }
+
+
         }
     }
 

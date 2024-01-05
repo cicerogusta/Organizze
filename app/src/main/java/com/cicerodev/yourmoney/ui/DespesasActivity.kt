@@ -5,8 +5,10 @@ import androidx.activity.viewModels
 import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.databinding.ActivityDespesasBinding
+import com.cicerodev.yourmoney.util.MoneyTextWatcher
 import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.dataAtual
+import com.cicerodev.yourmoney.util.extractNumbersFromString
 import com.cicerodev.yourmoney.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,6 +20,7 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.editTotalDespasas.addTextChangedListener(MoneyTextWatcher(binding.editTotalDespasas))
         binding.editDataDespesas.setText(dataAtual())
         recuperarDespesaTotal()
         setupClickListener()
@@ -60,7 +63,7 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
     }
 
     private fun salvarDespesa() {
-        val valorRecuperado = binding.editTotalDespasas.text.toString().toDouble()
+        val valorRecuperado = extractNumbersFromString(binding.editTotalDespasas.text.toString()).toDouble()
         val movimentacao = Movimentacao(
             binding.editDataDespesas.text.toString(),
             binding.editCategoriaDespesas.text.toString(),
