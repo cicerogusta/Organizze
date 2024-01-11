@@ -2,9 +2,9 @@ package com.cicerodev.yourmoney.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.cicerodev.yourmoney.base.BaseActivity
+import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.User
 import com.cicerodev.yourmoney.databinding.ActivityCadastroBinding
 import com.cicerodev.yourmoney.util.UiState
@@ -52,7 +52,8 @@ class CadastroActivity : BaseActivity<CadastroActivityViewModel, ActivityCadastr
             val usuario = User(
                 nome = binding.editNomeRegistro.text.toString(),
                 email = binding.editEmailRegistro.text.toString(),
-                senha = binding.editSenhaRegistro.text.toString()
+                senha = binding.editSenhaRegistro.text.toString(),
+                cartoesCredito = mutableListOf(CartaoCredito("ttt", "18/01", "5000"), CartaoCredito("asassa","12/26", "8000"))
             )
             viewModel.cadastrarUsuario(usuario)
             resultadoRegistro()

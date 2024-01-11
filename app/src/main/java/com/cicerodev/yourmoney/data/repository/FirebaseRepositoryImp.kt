@@ -2,11 +2,12 @@ package com.cicerodev.yourmoney.data.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.data.model.User
 import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.codificarBase64
-import com.cicerodev.yourmoney.util.mesAnoDataEscolhida
+import com.cicerodev.yourmoney.util.formataData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -113,7 +114,7 @@ class FirebaseRepositoryImp(
 
     override fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit) {
         val idUsuario = getUserId()
-        val mesAno = mesAnoDataEscolhida(movimentacao.data)
+        val mesAno = formataData(movimentacao.data)
         if (idUsuario != null) {
             val movimentacaoRef = database.reference.child("movimentacao")
                 .child(idUsuario).child(mesAno).push().setValue(movimentacao)
@@ -145,6 +146,11 @@ class FirebaseRepositoryImp(
         }
     }
 
+    override fun updateCards(cartaoCredito: CartaoCredito) {
+        database.reference.child("cartoesCredito")
+            .child(getUserId()!!).push().setValue(cartaoCredito)
+    }
+
     override fun getUser(mtbUser: MutableLiveData<User>) {
         val idUsuario = getUserId()!!
         val usuarioRef = database.reference.child("usuarios").child(idUsuario)
@@ -162,6 +168,40 @@ class FirebaseRepositoryImp(
         })
         getEventListenerUsuario(eventListener)
     }
+
+    override fun getCards(): MutableLiveData<MutableList<CartaoCredito>> {
+        val liveData: MutableLiveData<MutableList<CartaoCredito>> = MutableLiveData()
+        val eventListener =
+            database.reference.child("cartoesCredito").child(getUserId()!!)
+                .addValueEventListener(object : ValueEventListener {
+                    val listaCartoes = mutableListOf<CartaoCredito>()
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        listaCartoes.clear()
+                        liveData.value?.clear()
+                        for (cartoes in snapshot.children) {
+                            val cartao = cartoes.getValue(CartaoCredito::class.java)
+                            cartao?.key = cartoes.key.toString()
+                            if (cartao != null) {
+                                listaCartoes.add(cartao)
+                                Log.d("lista", listaCartoes.toString())
+
+                            }
+                        }
+                        liveData.postValue(listaCartoes)
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+        getEventListenerMovements(eventListener)
+        return liveData
+
+    }
+
+
 
     override fun updateExpense(despesaAtualizada: Double) {
         val idUsuario = getUserId()

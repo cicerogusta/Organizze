@@ -22,7 +22,6 @@ import com.cicerodev.yourmoney.util.toast
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
-import de.timonknispel.ktloadingbutton.KTLoadingButton
 import java.text.DecimalFormat
 
 
@@ -48,6 +47,9 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
         recuperarResumoUsuario()
         recuperarListaMovimentacoes()
         inicializarAnuncio()
+        binding.buttonCartoes.setOnClickListener {
+            startActivity(Intent(this, SeusCartoesActivity::class.java))
+        }
 
     }
 

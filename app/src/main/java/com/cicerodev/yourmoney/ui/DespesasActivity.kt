@@ -1,6 +1,9 @@
 package com.cicerodev.yourmoney.ui
 
+import android.R
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.viewModels
 import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.Movimentacao
@@ -11,6 +14,7 @@ import com.cicerodev.yourmoney.util.dataAtual
 import com.cicerodev.yourmoney.util.extractNumbersFromString
 import com.cicerodev.yourmoney.util.toast
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesasBinding>() {
@@ -24,6 +28,16 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         binding.editDataDespesas.setText(dataAtual())
         recuperarDespesaTotal()
         setupClickListener()
+        configurarCartoes()
+    }
+
+    private fun configurarCartoes() {
+
+
+        val items = arrayOf("1", "2", "three")
+
+        val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, items)
+        binding.spinner1.adapter = adapter
     }
 
     override fun getViewBinding(): ActivityDespesasBinding =
@@ -94,6 +108,8 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
                 is UiState.Success -> {
                     toast(state.data)
                 }
+
+                else -> {}
             }
         }
     }

@@ -22,7 +22,7 @@ fun dataAtual(): String? {
     return simpleDateFormat.format(data)
 }
 
-fun mesAnoDataEscolhida(data: String): String {
+fun formataData(data: String): String {
     val retornoData = data.split("/")
     val dia = retornoData[0]
     val mes = retornoData[1]

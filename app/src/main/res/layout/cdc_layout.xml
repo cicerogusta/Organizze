@@ -1,69 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
-
-    <!-- Layout para o cartão -->
-    <RelativeLayout
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
         android:padding="16dp">
 
-        <!-- Número do cartão -->
-        <TextView
-            android:id="@+id/textCardName"
+        <!-- Layout para o cartão -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NOME DO CARTÃO"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            android:background="@android:color/holo_blue_light"
+            android:padding="16dp">
 
-        <!-- Nome do titular do cartão -->
-        <TextView
-            android:id="@+id/textCardHolderName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textCardName"
-            android:text="TITULAR DO CARTÃO"
-            android:textColor="#000000"
-            android:textSize="14sp" />
-
-        <!-- Data de validade e CVC -->
-        <LinearLayout
-            android:id="@+id/layoutExpirationCvc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textCardHolderName"
-            android:orientation="horizontal">
+            <!-- Nome do titular do cartão -->
+            <TextView
+                android:id="@+id/textCardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NOME DO CARTÃO"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
             <!-- Data de validade -->
             <TextView
                 android:id="@+id/textExpirationDate"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/textCardName"
+                android:layout_marginTop="8dp"
                 android:text="MM/YY"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
-            <!-- Espaçamento entre Data de validade e CVC -->
-            <View
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
+            <!-- Limite do cartão -->
+            <TextView
+                android:id="@+id/textCardLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textExpirationDate"
+                android:layout_marginTop="8dp"
+                android:text="Limite: R$ 5,000.00"
+                android:textColor="#000000"
+                android:textSize="14sp" />
 
-            <!-- CVC -->
-        </LinearLayout>
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textCardLimit"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/holo_red_light"
+                android:text="Remover" />
 
-        <!-- Limite do cartão -->
-        <TextView
-            android:id="@+id/textCardLimit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layoutExpirationCvc"
-            android:text="Limite: R$ 5,000.00"
-            android:textColor="#000000"
-            android:textSize="14sp" />
+        </RelativeLayout>
+
+
     </RelativeLayout>
-</RelativeLayout>
+</layout>

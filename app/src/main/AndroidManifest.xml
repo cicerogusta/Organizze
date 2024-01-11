@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-
         android:name=".YourMoneyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,19 +14,29 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ui.DespesasActivity" android:theme="@style/despesaTheme"
-            android:exported="true" />
+            android:name=".ui.CadastraCartaoActivity"
+            android:exported="false" />
         <activity
-            android:name=".ui.ReceitasActivity" android:theme="@style/receitaTheme"
-            android:exported="true" />
+            android:name=".ui.SeusCartoesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DespesasActivity"
+            android:exported="true"
+            android:theme="@style/despesaTheme" />
+        <activity
+            android:name=".ui.ReceitasActivity"
+            android:exported="true"
+            android:theme="@style/receitaTheme" />
         <activity
             android:name=".ui.PrincipalActivity"
             android:exported="true"
             android:label="@string/title_activity_principal"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7902597376494373~3238969138"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7902597376494373~3238969138" />
+
         <activity
             android:name=".ui.CadastroActivity"
             android:exported="true" />

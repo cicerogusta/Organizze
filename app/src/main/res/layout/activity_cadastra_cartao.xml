@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.CadastraCartaoActivity">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Adicione um novo Cartão"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/editNomeCartaoCadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <EditText
+            android:id="@+id/editNomeCartaoCadastro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Nome do Cartão"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/editDataVencCartaoCadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <EditText
+            android:id="@+id/editDataVencCartaoCadastro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Data de vencimento do Cartão"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/editLimiteCartaoCadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editNomeCartaoCadastro" />
+
+        <EditText
+            android:id="@+id/editLimiteCartaoCadastro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Limite do Cartão"
+            android:inputType="number|numberDecimal"
+            app:layout_constraintBottom_toTopOf="@+id/buttonAdicionarCartaoCadastro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDataVencCartaoCadastro" />
+
+        <Button
+            android:id="@+id/buttonAdicionarCartaoCadastro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Adicionar Cartão"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLimiteCartaoCadastro" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
