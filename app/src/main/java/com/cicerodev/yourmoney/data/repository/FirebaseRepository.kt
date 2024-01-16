@@ -14,12 +14,13 @@ interface FirebaseRepository {
     fun isCurrentUser(): Boolean
     fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit)
 
-    fun updateCards(cartaoCredito: CartaoCredito)
+    fun createCard(cartaoCredito: CartaoCredito)
     fun getUser(mtbUser: MutableLiveData<User>)
     fun updateExpense(despesaAtualizada: Double)
     fun updateRecipe(receitaAtualizada: Double)
     fun logout()
     fun getCards(): MutableLiveData<MutableList<CartaoCredito>>
+    fun updateCard(cartaoCredito: CartaoCredito, novoLimite: Double)
     fun removeValueEventListenerUsuario(mtbEventListenerUsuario: MutableLiveData<ValueEventListener>)
     fun removeValueEventListenerMovements(mtbEventListenerMovements: MutableLiveData<ValueEventListener>, mesAnoSelecionado: String)
     fun getEventListenerUsuario(eventListener: ValueEventListener)

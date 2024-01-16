@@ -2,10 +2,11 @@ package com.cicerodev.yourmoney.ui
 
 import android.R
 import android.os.Bundle
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.viewModels
 import com.cicerodev.yourmoney.base.BaseActivity
+import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.databinding.ActivityDespesasBinding
 import com.cicerodev.yourmoney.util.MoneyTextWatcher
@@ -20,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesasBinding>() {
     override val viewModel: DespesasActivityViewModel by viewModels()
     private var despesaTotal: Double = 0.0
+    private var cartaoCredito: CartaoCredito? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,15 +31,35 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         recuperarDespesaTotal()
         setupClickListener()
         configurarCartoes()
+
+
+        viewModel.returnCards().observe(this) {
+            val cardPosition = binding.spinner1.selectedItemPosition
+            cartaoCredito = it[cardPosition]
+
+
+        }
+
     }
 
     private fun configurarCartoes() {
 
+        viewModel.returnCards().observe(this) { cartaoCredito ->
+            val items = mutableListOf<String>()
+            cartaoCredito.forEach {
+               it.nomeCartao?.let { it1 -> items.add(it1) }
 
-        val items = arrayOf("1", "2", "three")
+            }
+            val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, items)
+            binding.spinner1.adapter = adapter
 
-        val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, items)
-        binding.spinner1.adapter = adapter
+
+
+
+        }
+
+
+
     }
 
     override fun getViewBinding(): ActivityDespesasBinding =
@@ -89,6 +111,14 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         atualizarDespesa(despesaAtualizada)
         viewModel.salvarDespesa(movimentacao)
         resultadoSalvarDespesa()
+
+
+        val limiteTotalCartaoAtualizado =
+            cartaoCredito?.limiteCartao!!.toDouble() - valorRecuperado
+        viewModel.atualizarCartao(cartaoCredito!!, limiteTotalCartaoAtualizado)
+
+        cartaoCredito?.let { viewModel.atualizarCartao(it, limiteTotalCartaoAtualizado) }
+
     }
 
     private fun atualizarDespesa(despesaAtualizada: Double) {
@@ -123,6 +153,7 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
     override fun onStart() {
         super.onStart()
         viewModel.retornaUsuario()
+//        viewModel.returnCards()
     }
 
 }

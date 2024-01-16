@@ -23,7 +23,7 @@ class CadastraCartaoActivityViewModel @Inject constructor(private val repository
 
     fun cadastrarCartao(cartaoCredito: CartaoCredito) {
 
-        repository.updateCards(cartaoCredito)
+        repository.createCard(cartaoCredito)
     }
 
 }

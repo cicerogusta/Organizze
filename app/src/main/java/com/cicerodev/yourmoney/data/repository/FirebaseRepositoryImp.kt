@@ -146,9 +146,17 @@ class FirebaseRepositoryImp(
         }
     }
 
-    override fun updateCards(cartaoCredito: CartaoCredito) {
-        database.reference.child("cartoesCredito")
-            .child(getUserId()!!).push().setValue(cartaoCredito)
+    override fun createCard(cartaoCredito: CartaoCredito) {
+        val reference = database.reference.child("cartoesCredito")
+            .child(getUserId()!!)
+        val push = reference.push()
+        val key = push.key
+        cartaoCredito.key = key!!
+        push.setValue(cartaoCredito)
+    }
+
+    override fun updateCard(cartaoCredito: CartaoCredito, novoLimite: Double) {
+        database.reference.child("cartoesCredito").child(getUserId()!!).child(cartaoCredito.key).child("limiteCartao").setValue(novoLimite.toString())
     }
 
     override fun getUser(mtbUser: MutableLiveData<User>) {
@@ -200,6 +208,7 @@ class FirebaseRepositoryImp(
         return liveData
 
     }
+
 
 
 
