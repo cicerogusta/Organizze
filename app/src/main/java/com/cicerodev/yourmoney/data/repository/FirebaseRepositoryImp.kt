@@ -17,6 +17,8 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.MutableData
+import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 
 class FirebaseRepositoryImp(
@@ -216,14 +218,58 @@ class FirebaseRepositoryImp(
         val idUsuario = getUserId()
         val usuarioRef = idUsuario?.let { database.reference.child("usuarios").child(it) }
 
-        usuarioRef?.child("despesaTotal")?.setValue(despesaAtualizada)
+        usuarioRef?.child("despesaTotal")?.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                // Obter o valor atual do nó
+                val currentValue = mutableData.getValue(Double::class.java)
+
+                // Adicionar o valor desejado
+                val newValue = (currentValue ?: 0.0) + despesaAtualizada
+
+                // Definir o novo valor no nó
+                mutableData.value = newValue
+
+                // Retornar sucesso
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                if (databaseError != null) {
+                    // Tratar erro na transação
+                } else {
+                    // Transação bem-sucedida
+                }
+            }
+        })
     }
 
     override fun updateRecipe(receitaAtualizada: Double) {
         val idUsuario = getUserId()
         val usuarioRef = idUsuario?.let { database.reference.child("usuarios").child(it) }
 
-        usuarioRef?.child("receitaTotal")?.setValue(receitaAtualizada)
+        usuarioRef?.child("receitaTotal")?.runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                // Obter o valor atual do nó
+                val currentValue = mutableData.getValue(Double::class.java)
+
+                // Adicionar o valor desejado
+                val newValue = (currentValue ?: 0.0) + receitaAtualizada
+
+                // Definir o novo valor no nó
+                mutableData.value = newValue
+
+                // Retornar sucesso
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                if (databaseError != null) {
+                    // Tratar erro na transação
+                } else {
+                    // Transação bem-sucedida
+                }
+            }
+        })
     }
 
     override fun logout() {
