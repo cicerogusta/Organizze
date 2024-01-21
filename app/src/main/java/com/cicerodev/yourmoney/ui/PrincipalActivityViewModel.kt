@@ -3,6 +3,7 @@ package com.cicerodev.yourmoney.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.data.model.User
 import com.cicerodev.yourmoney.data.repository.FirebaseRepository
@@ -55,4 +56,9 @@ class PrincipalActivityViewModel @Inject constructor(private val repository: Fir
     fun atualizaReceitaTotal(totalRecipe: Double) {
         repository.updateTotalRecipe(totalRecipe)
     }
+
+    fun adicionaLimiteCartao(limiteAtualizado: Double, cartaoCredito: CartaoCredito) {
+        repository.updateCardLimit(limiteAtualizado, cartaoCredito)
+    }
+
 }

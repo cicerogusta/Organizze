@@ -260,6 +260,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
             viewModel.removerMovimentacao(mesAnoSelecionado, movimentacao.key)
             binding.content.recyclerMovimentos.adapter?.notifyItemRemoved(position)
             atualizarSaldo(position)
+            viewModel.adicionaLimiteCartao(movimentacao.valor, movimentacao.cartaoCredito)
             viewModel.retornaMovimentacoes(mesAnoSelecionado).value?.removeAt(position)
 
         }

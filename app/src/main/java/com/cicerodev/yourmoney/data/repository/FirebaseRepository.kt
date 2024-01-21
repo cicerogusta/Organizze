@@ -8,6 +8,7 @@ import com.cicerodev.yourmoney.util.UiState
 import com.google.firebase.database.ValueEventListener
 
 interface FirebaseRepository {
+
     fun loginUser(email: String, senha: String, result: (UiState<String>) -> Unit)
     fun registerUser(user: User, result: (UiState<String>) -> Unit)
     fun getUserId(): String?
@@ -30,4 +31,5 @@ interface FirebaseRepository {
     fun updateTotalRecipe(totalRecipe: Double)
     fun updateTotalExpense(totalExpense: Double)
 
+    fun updateCardLimit(limiteAtualizado: Double, cartaoCredito: CartaoCredito)
 }

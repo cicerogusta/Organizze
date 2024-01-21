@@ -6,5 +6,12 @@ data class Movimentacao(
     val descricao: String = "",
     val tipo: String = "",
     val valor: Double = 0.0,
-    var key: String = ""
+    var key: String = "",
+    var isDespesaCartao: Boolean = false,
+    var isReceitaCartao: Boolean = false,
+    var isDespesaPix: Boolean = false,
+    var isReceitaPix: Boolean = false,
+    var isDespesaDinheiro: Boolean = false,
+    var isReceitaDinheiro: Boolean = false,
+    var cartaoCredito: CartaoCredito = CartaoCredito()
 )

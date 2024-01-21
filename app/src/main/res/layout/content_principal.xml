@@ -62,30 +62,19 @@
             app:mcv_showOtherDates="all"
             app:mcv_tileSize="50dp" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerMovimentos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="450dp"/>
 
 
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="vertical"
-            android:layout_marginTop="-51dp"
-            android:layout_gravity="end|bottom">
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:adSize="BANNER"
                 app:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
         </LinearLayout>
-
-
-
-
-    </LinearLayout>
 </layout>

@@ -1,9 +1,11 @@
 package com.cicerodev.yourmoney.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.cicerodev.yourmoney.base.BaseActivity
+import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.Movimentacao
 import com.cicerodev.yourmoney.databinding.ActivityReceitasBinding
 import com.cicerodev.yourmoney.util.MoneyTextWatcher
@@ -17,13 +19,33 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceitasBinding>() {
     override val viewModel: ReceitasActivityViewModel by viewModels()
     private var receitaTotal: Double = 0.0
+    private var isReceitaCartao = false
+    private var isReceitaDinheiro = false
+    private var isReceitaPix = false
+    private var cartaoCredito: CartaoCredito? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.editTotalReceitas.addTextChangedListener(MoneyTextWatcher(binding.editTotalReceitas))
-        recuperarReceitaTotal()
         binding.editDataReceitas.setText(dataAtual())
         setupClickListener()
+
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when (checkedId) {
+                binding.radioButtonPix.id -> {
+                    isReceitaPix = true
+                }
+
+                binding.radioButtonDinheiro.id -> {
+                    isReceitaDinheiro = true
+                }
+
+                binding.radioButtonCartao.id -> {
+                    isReceitaCartao = true
+
+                }
+            }
+        }
     }
 
     override fun getViewBinding(): ActivityReceitasBinding = ActivityReceitasBinding.inflate(layoutInflater)
@@ -70,6 +92,23 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
             "r",
            valorRecuperado
         )
+        if (isReceitaCartao) {
+            movimentacao.isReceitaCartao = true
+//            movimentacao.cartaoCredito = cartaoCredito!!
+//            val limiteTotalCartaoAtualizado =
+//                cartaoCredito?.limiteCartao!!.toDouble() + valorRecuperado
+//            viewModel.atualizarCartao(cartaoCredito!!, limiteTotalCartaoAtualizado)
+//
+//            cartaoCredito?.let { viewModel.atualizarCartao(it, limiteTotalCartaoAtualizado) }
+        } else {
+            if (isReceitaDinheiro) {
+                movimentacao.isDespesaDinheiro = true
+            } else {
+                if (isReceitaPix) {
+                    movimentacao.isDespesaPix = true
+                }
+            }
+        }
         val receitaAtualizada = receitaTotal + valorRecuperado
         atualizarReceita(receitaAtualizada)
         viewModel.salvarReceita(movimentacao)
@@ -94,12 +133,6 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
                     toast(state.data)
                 }
             }
-        }
-    }
-
-    private fun recuperarReceitaTotal() {
-        viewModel.user.observe(this) {
-            receitaTotal = it.despesaTotal
         }
     }
 

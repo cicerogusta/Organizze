@@ -2,6 +2,7 @@ package com.cicerodev.yourmoney.ui
 
 import android.R
 import android.os.Bundle
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
@@ -22,13 +23,16 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
     override val viewModel: DespesasActivityViewModel by viewModels()
     private var despesaTotal: Double = 0.0
     private var cartaoCredito: CartaoCredito? = null
+    private var isDespesaCartao: Boolean = false
+    private var isDespesaPix: Boolean = false
+    private var isDespesaDinheiro: Boolean = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.editTotalDespasas.addTextChangedListener(MoneyTextWatcher(binding.editTotalDespasas))
         binding.editDataDespesas.setText(dataAtual())
-        recuperarDespesaTotal()
         setupClickListener()
         configurarCartoes()
 
@@ -40,18 +44,39 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
         }
 
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when (checkedId) {
+                binding.radioButtonPix.id -> {
+                    isDespesaPix = true
+                    binding.spinner1.visibility = View.GONE
+                }
+
+                binding.radioButtonDinheiro.id -> {
+                    isDespesaDinheiro = true
+                    binding.spinner1.visibility = View.GONE
+                }
+
+                binding.radioButtonCartao.id -> {
+                    isDespesaCartao = true
+                    binding.spinner1.visibility = View.VISIBLE
+                }
+            }
+        }
+
     }
 
     private fun configurarCartoes() {
 
         viewModel.returnCards().observe(this) { cartaoCredito ->
-            val items = mutableListOf<String>()
-            cartaoCredito.forEach {
-               it.nomeCartao?.let { it1 -> items.add(it1) }
+            if (cartaoCredito.isNotEmpty()) {
+                val items = mutableListOf<String>()
+                cartaoCredito.forEach {
+                    it.nomeCartao?.let { it1 -> items.add(it1) }
 
+                }
+                val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, items)
+                binding.spinner1.adapter = adapter
             }
-            val adapter = ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, items)
-            binding.spinner1.adapter = adapter
 
 
 
@@ -107,17 +132,29 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
             "d",
             valorRecuperado
         )
+        if (isDespesaCartao) {
+            movimentacao.isDespesaCartao = true
+            movimentacao.cartaoCredito = cartaoCredito!!
+            val limiteTotalCartaoAtualizado =
+                cartaoCredito?.limiteCartao!!.toDouble() - valorRecuperado
+            viewModel.atualizarCartao(cartaoCredito!!, limiteTotalCartaoAtualizado)
+
+            cartaoCredito?.let { viewModel.atualizarCartao(it, limiteTotalCartaoAtualizado) }
+        } else {
+            if (isDespesaDinheiro) {
+                movimentacao.isDespesaDinheiro = true
+            } else {
+                if (isDespesaPix) {
+                    movimentacao.isDespesaPix = true
+                }
+            }
+        }
         val despesaAtualizada = despesaTotal + valorRecuperado
         atualizarDespesa(despesaAtualizada)
         viewModel.salvarDespesa(movimentacao)
         resultadoSalvarDespesa()
 
 
-        val limiteTotalCartaoAtualizado =
-            cartaoCredito?.limiteCartao!!.toDouble() - valorRecuperado
-        viewModel.atualizarCartao(cartaoCredito!!, limiteTotalCartaoAtualizado)
-
-        cartaoCredito?.let { viewModel.atualizarCartao(it, limiteTotalCartaoAtualizado) }
 
     }
 
@@ -141,12 +178,6 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
                 else -> {}
             }
-        }
-    }
-
-    private fun recuperarDespesaTotal() {
-        viewModel.user.observe(this) {
-            despesaTotal = it.despesaTotal
         }
     }
 
