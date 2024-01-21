@@ -20,7 +20,6 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
     private var isReceitaCartao = false
     private var isReceitaDinheiro = false
     private var isReceitaPix = false
-    private var cartaoCredito: CartaoCredito? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
