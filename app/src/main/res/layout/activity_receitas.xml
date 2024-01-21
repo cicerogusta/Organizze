@@ -7,7 +7,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.ReceitasActivity">
 
-
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="0dp"
@@ -51,7 +57,7 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/include">
 
             <EditText
                 android:id="@+id/editTotalReceitas"

@@ -34,6 +34,9 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         binding.editDataDespesas.setText(dataAtual())
         setupClickListener()
         configurarCartoes()
+        binding.include.toolbarDespesa.title = "YourMoney"
+        setSupportActionBar(binding.include.toolbarDespesa)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
         viewModel.returnCards().observe(this) {

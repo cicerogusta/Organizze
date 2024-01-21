@@ -19,6 +19,7 @@ interface FirebaseRepository {
     fun getUser(mtbUser: MutableLiveData<User>)
     fun updateExpense(despesaAtualizada: Double)
     fun updateRecipe(receitaAtualizada: Double)
+    fun removeCardLimit(limiteAtualizado: Double, cartaoCredito: CartaoCredito)
     fun logout()
     fun getCards(): MutableLiveData<MutableList<CartaoCredito>>
     fun updateCard(cartaoCredito: CartaoCredito, novoLimite: Double)

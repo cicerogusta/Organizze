@@ -10,6 +10,7 @@ import com.cicerodev.yourmoney.R
 import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.databinding.CdcLayoutBinding
 import com.cicerodev.yourmoney.util.formataData
+import com.cicerodev.yourmoney.util.formataDataCartao
 
 
 class CartoesAdapter(
@@ -26,7 +27,7 @@ class CartoesAdapter(
     override fun onBindViewHolder(holder: CartoesAdapter.MyViewHolder, position: Int) {
         val cartao = listaCartoes[position]
         holder.binding.textCardName.text = "Nome: ${cartao.nomeCartao}"
-        holder.binding.textExpirationDate.text = "Data de vencimento: ${cartao.dataVencimento}"
+        holder.binding.textExpirationDate.text = "Data de vencimento: ${formataDataCartao(cartao.dataVencimento!!)}"
         holder.binding.textCardLimit.text = "Limite R$ ${cartao.limiteCartao}"
 
 

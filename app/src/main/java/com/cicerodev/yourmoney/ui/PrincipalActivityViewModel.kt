@@ -61,4 +61,8 @@ class PrincipalActivityViewModel @Inject constructor(private val repository: Fir
         repository.updateCardLimit(limiteAtualizado, cartaoCredito)
     }
 
+    fun removeLimiteCartao(limiteAtualizado: Double, cartaoCredito: CartaoCredito) {
+        repository.removeCardLimit(limiteAtualizado, cartaoCredito)
+    }
+
 }

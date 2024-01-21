@@ -305,6 +305,35 @@ class FirebaseRepositoryImp(
         })
     }
 
+    override fun removeCardLimit(limiteAtualizado: Double, cartaoCredito: CartaoCredito) {
+        val idUsuario = getUserId()
+        val usuarioRef = database.reference.child("cartoesCredito").child(idUsuario!!).child(cartaoCredito.key)
+
+        usuarioRef.child("limiteCartao").runTransaction(object : Transaction.Handler {
+            override fun doTransaction(mutableData: MutableData): Transaction.Result {
+                // Obter o valor atual do nó
+                val currentValue = mutableData.getValue(String::class.java)
+
+                // Adicionar o valor desejado
+                val newValue = (currentValue?.toDouble() ?: 0.0) - limiteAtualizado
+
+                // Definir o novo valor no nó
+                mutableData.value = newValue.toString()
+
+                // Retornar sucesso
+                return Transaction.success(mutableData)
+            }
+
+            override fun onComplete(databaseError: DatabaseError?, committed: Boolean, dataSnapshot: DataSnapshot?) {
+                if (databaseError != null) {
+                    // Tratar erro na transação
+                } else {
+                    // Transação bem-sucedida
+                }
+            }
+        })
+    }
+
     override fun logout() {
         auth.signOut()
     }

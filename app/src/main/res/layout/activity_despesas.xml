@@ -8,6 +8,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.DespesasActivity">
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/toolbar2" />
+
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
@@ -18,7 +22,8 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/include">
+
 
             <EditText
                 android:id="@+id/editTotalDespasas"

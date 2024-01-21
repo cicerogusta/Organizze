@@ -26,6 +26,9 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
         binding.editTotalReceitas.addTextChangedListener(MoneyTextWatcher(binding.editTotalReceitas))
         binding.editDataReceitas.setText(dataAtual())
         setupClickListener()
+        binding.include.toolbarReceita.title = "YourMoney"
+        setSupportActionBar(binding.include.toolbarReceita)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {

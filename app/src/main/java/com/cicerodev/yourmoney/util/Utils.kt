@@ -16,6 +16,22 @@ fun removePoints(input: String): String {
     return input.replace(",", "").replace("$", "")
 }
 
+fun formataDataCartao(data: String): String {
+    val dataOriginal = data
+    var dataFormatada = ""
+    if (dataOriginal.length == 4) {
+        val dia = dataOriginal.substring(0, 2)
+        val mes = dataOriginal.substring(2)
+
+         dataFormatada = "$dia/$mes"
+
+        println("Data formatada: $dataFormatada")
+    } else {
+        println("A string não possui o formato esperado.")
+    }
+    return dataFormatada
+}
+
 fun dataAtual(): String? {
     val data = System.currentTimeMillis()
     val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
