@@ -12,8 +12,8 @@ fun decodificarBase64(textoCodificado: String?): String {
     return String(Base64.decode(textoCodificado, Base64.DEFAULT))
 }
 
-fun extractNumbersFromString(input: String): String {
-    return input.replace("[^0-9,\\.]".toRegex(), "").replace(",", ".")
+fun removePoints(input: String): String {
+    return input.replace(",", "").replace("$", "")
 }
 
 fun dataAtual(): String? {

@@ -32,51 +32,53 @@ class MovimentacaoAdapter(
             holder.binding.textValor.setTextColor(context.resources.getColor(R.color.colorAccentDespesa))
             holder.binding.textValor.text = "-" + movimentacao.valor.toString()
 
+            if (movimentacao.isDespesaCartao) {
+                holder.binding.txtCardName.visibility = View.VISIBLE
+                holder.binding.txtCardName.text = movimentacao.cartaoCredito.nomeCartao
+                holder.binding.imageMoney.visibility = View.GONE
+                holder.binding.imagePix.visibility = View.GONE
+            } else {
+                holder.binding.txtCardName.visibility = View.GONE
+                if (movimentacao.isDespesaDinheiro) {
+                    holder.binding.imageMoney.visibility = View.VISIBLE
+                } else {
+                    holder.binding.imageMoney.visibility = View.GONE
+                    if (movimentacao.isDespesaPix) {
+                        holder.binding.imagePix.visibility = View.VISIBLE
+                    } else {
+                        holder.binding.imageMoney.visibility = View.GONE
+                    }
+                }
+            }
         } else {
             if (movimentacao.tipo == "r") {
                 holder.binding.textValor.setTextColor(context.resources.getColor(R.color.colorAccentReceita))
                 holder.binding.textValor.text = movimentacao.valor.toString()
 
-            }
-        }
-
-        if (movimentacao.isDespesaCartao) {
-            holder.binding.txtCardName.visibility = View.VISIBLE
-            holder.binding.txtCardName.text = movimentacao.cartaoCredito.nomeCartao
-            holder.binding.imageMoney.visibility = View.GONE
-            holder.binding.imagePix.visibility = View.GONE
-        } else {
-            holder.binding.txtCardName.visibility = View.GONE
-            if (movimentacao.isDespesaDinheiro) {
-                holder.binding.imageMoney.visibility = View.VISIBLE
-            } else {
-                holder.binding.imageMoney.visibility = View.GONE
-                if (movimentacao.isDespesaPix) {
-                    holder.binding.imagePix.visibility = View.VISIBLE
-                } else {
+                if (movimentacao.isReceitaCartao) {
+                    holder.binding.txtCardName.visibility = View.VISIBLE
+                    holder.binding.txtCardName.text = null
                     holder.binding.imageMoney.visibility = View.GONE
+                    holder.binding.imagePix.visibility = View.GONE
+                } else {
+                    holder.binding.txtCardName.visibility = View.GONE
+                    if (movimentacao.isDespesaDinheiro) {
+                        holder.binding.imageMoney.visibility = View.VISIBLE
+                    } else {
+                        holder.binding.imageMoney.visibility = View.GONE
+                        if (movimentacao.isDespesaPix) {
+                            holder.binding.imagePix.visibility = View.VISIBLE
+                        } else {
+                            holder.binding.imageMoney.visibility = View.GONE
+                        }
+                    }
                 }
             }
         }
 
-        if (movimentacao.isReceitaCartao) {
-            holder.binding.txtCardName.visibility = View.VISIBLE
-            holder.binding.txtCardName.text = null
-            holder.binding.imageMoney.visibility = View.GONE
-            holder.binding.imagePix.visibility = View.GONE
-        } else {
-            holder.binding.txtCardName.visibility = View.GONE
-            if (movimentacao.isDespesaDinheiro) {
-                holder.binding.imageMoney.visibility = View.VISIBLE
-            } else {
-                holder.binding.imageMoney.visibility = View.GONE
-                if (movimentacao.isDespesaPix) {
-                    holder.binding.imagePix.visibility = View.VISIBLE
-                } else {
-                    holder.binding.imageMoney.visibility = View.GONE
-                }
-            }
-        }
+
+
+
 
     }
 

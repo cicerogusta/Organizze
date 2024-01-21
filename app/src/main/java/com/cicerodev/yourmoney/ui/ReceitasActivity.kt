@@ -1,9 +1,7 @@
 package com.cicerodev.yourmoney.ui
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
-import androidx.core.widget.addTextChangedListener
 import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.data.model.Movimentacao
@@ -11,7 +9,7 @@ import com.cicerodev.yourmoney.databinding.ActivityReceitasBinding
 import com.cicerodev.yourmoney.util.MoneyTextWatcher
 import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.dataAtual
-import com.cicerodev.yourmoney.util.extractNumbersFromString
+import com.cicerodev.yourmoney.util.removePoints
 import com.cicerodev.yourmoney.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,7 +82,7 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
     }
 
     private fun salvarReceita() {
-        val valorRecuperado = extractNumbersFromString(binding.editTotalReceitas.text.toString()).toDouble()
+        val valorRecuperado = removePoints(binding.editTotalReceitas.text.toString()).toDouble()
         val movimentacao = Movimentacao(
             binding.editDataReceitas.text.toString(),
             binding.editCategoriaReceitas.text.toString(),
@@ -94,12 +92,6 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
         )
         if (isReceitaCartao) {
             movimentacao.isReceitaCartao = true
-//            movimentacao.cartaoCredito = cartaoCredito!!
-//            val limiteTotalCartaoAtualizado =
-//                cartaoCredito?.limiteCartao!!.toDouble() + valorRecuperado
-//            viewModel.atualizarCartao(cartaoCredito!!, limiteTotalCartaoAtualizado)
-//
-//            cartaoCredito?.let { viewModel.atualizarCartao(it, limiteTotalCartaoAtualizado) }
         } else {
             if (isReceitaDinheiro) {
                 movimentacao.isDespesaDinheiro = true
