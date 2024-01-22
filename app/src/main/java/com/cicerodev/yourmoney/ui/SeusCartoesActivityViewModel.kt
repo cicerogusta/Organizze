@@ -27,4 +27,8 @@ class SeusCartoesActivityViewModel @Inject constructor(private val repository: F
        return repository.getCards()
     }
 
+    fun removerCartao(cartaoCredito: CartaoCredito) {
+        repository.removeCard(cartaoCredito)
+    }
+
 }

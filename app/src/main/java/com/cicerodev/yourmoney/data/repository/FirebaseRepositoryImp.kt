@@ -334,6 +334,10 @@ class FirebaseRepositoryImp(
         })
     }
 
+    override fun removeCard(cartaoCredito: CartaoCredito) {
+        database.reference.child("cartoesCredito").child(getUserId()!!).child(cartaoCredito.key).removeValue()
+    }
+
     override fun logout() {
         auth.signOut()
     }

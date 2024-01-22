@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cicerodev.yourmoney.R
 import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.databinding.CdcLayoutBinding
+import com.cicerodev.yourmoney.ui.PrincipalActivityViewModel
+import com.cicerodev.yourmoney.ui.SeusCartoesActivityViewModel
 import com.cicerodev.yourmoney.util.formataData
 import com.cicerodev.yourmoney.util.formataDataCartao
 
 
 class CartoesAdapter(
-    private var listaCartoes: MutableList<CartaoCredito>, private val context: Context
+    private var listaCartoes: MutableList<CartaoCredito>, private val viewModel: SeusCartoesActivityViewModel
 ) :
     RecyclerView.Adapter<CartoesAdapter.MyViewHolder?>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartoesAdapter.MyViewHolder {
@@ -29,6 +31,10 @@ class CartoesAdapter(
         holder.binding.textCardName.text = "Nome: ${cartao.nomeCartao}"
         holder.binding.textExpirationDate.text = "Data de vencimento: ${formataDataCartao(cartao.dataVencimento!!)}"
         holder.binding.textCardLimit.text = "Limite R$ ${cartao.limiteCartao}"
+        holder.binding.button2.setOnClickListener {
+            viewModel.removerCartao(cartao)
+            viewModel.returnCards().value?.remove(cartao)
+        }
 
 
 

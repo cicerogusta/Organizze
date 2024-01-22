@@ -45,7 +45,7 @@ class SeusCartoesActivity :
             layoutManager = LinearLayoutManager(this@SeusCartoesActivity)
             adapter = CartoesAdapter(
                 listaCartoes,
-                this@SeusCartoesActivity
+                viewModel
             )
         }
 
