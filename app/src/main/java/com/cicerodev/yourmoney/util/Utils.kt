@@ -13,7 +13,7 @@ fun decodificarBase64(textoCodificado: String?): String {
 }
 
 fun removePoints(input: String): String {
-    return input.replace(",", "").replace("$", "")
+    return input.replace(".", "").replace("", "").replace("R$", "").replace(",", ".").trim()
 }
 
 fun formataDataCartao(data: String): String {
