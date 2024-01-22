@@ -261,7 +261,7 @@ class PrincipalActivity : BaseActivity<PrincipalActivityViewModel, ActivityPrinc
             binding.content.recyclerMovimentos.adapter?.notifyItemRemoved(position)
             atualizarSaldo(position)
             if (movimentacao.isDespesaCartao) {
-                viewModel.adicionaLimiteCartao(movimentacao.valor, movimentacao.cartaoCredito)
+                viewModel.removeLimiteCartao(movimentacao.valor, movimentacao.cartaoCredito)
             }
             viewModel.retornaMovimentacoes(mesAnoSelecionado).value?.removeAt(position)
 
