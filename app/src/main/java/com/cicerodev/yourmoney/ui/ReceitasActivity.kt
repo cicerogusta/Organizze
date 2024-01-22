@@ -11,6 +11,8 @@ import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.dataAtual
 import com.cicerodev.yourmoney.util.removePoints
 import com.cicerodev.yourmoney.util.toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +27,7 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
         super.onCreate(savedInstanceState)
         binding.editTotalReceitas.addTextChangedListener(MoneyTextWatcher(binding.editTotalReceitas))
         binding.editDataReceitas.setText(dataAtual())
+        inicializarAnuncio()
         setupClickListener()
         binding.include.toolbarReceita.title = "YourMoney"
         setSupportActionBar(binding.include.toolbarReceita)
@@ -46,6 +49,14 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
                 }
             }
         }
+    }
+
+    private fun inicializarAnuncio() {
+        MobileAds.initialize(this) {}
+
+        val mAdView = binding.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun getViewBinding(): ActivityReceitasBinding = ActivityReceitasBinding.inflate(layoutInflater)

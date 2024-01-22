@@ -14,6 +14,8 @@ import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.dataAtual
 import com.cicerodev.yourmoney.util.removePoints
 import com.cicerodev.yourmoney.util.toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,6 +36,7 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         binding.editDataDespesas.setText(dataAtual())
         setupClickListener()
         configurarCartoes()
+        inicializarAnuncio()
         binding.include.toolbarDespesa.title = "YourMoney"
         setSupportActionBar(binding.include.toolbarDespesa)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -45,6 +48,8 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
 
         }
+
+
 
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
@@ -67,6 +72,13 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
     }
 
+    private fun inicializarAnuncio() {
+        MobileAds.initialize(this) {}
+
+        val mAdView = binding.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+    }
     private fun configurarCartoes() {
 
         viewModel.returnCards().observe(this) { cartaoCredito ->

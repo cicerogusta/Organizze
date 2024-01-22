@@ -9,6 +9,8 @@ import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.databinding.ActivitySeusCartoesBinding
 import com.cicerodev.yourmoney.util.toast
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +22,7 @@ class SeusCartoesActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        inicializarAnuncio()
         recuperarListaCartoes()
         setupClickListener()
 
@@ -32,6 +35,14 @@ class SeusCartoesActivity :
             configuraRecyclerViewCartoes()
         }
 
+    }
+
+    private fun inicializarAnuncio() {
+        MobileAds.initialize(this) {}
+
+        val mAdView = binding.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onStart() {
