@@ -30,7 +30,7 @@ class MovimentacaoAdapter(
         holder.binding.textValor.text = movimentacao.valor.toString()
         if (movimentacao.tipo == "d" ) {
             holder.binding.textValor.setTextColor(context.resources.getColor(R.color.colorAccentDespesa))
-            holder.binding.textValor.text = "-" + movimentacao.valor.toString()
+            holder.binding.textValor.text = "-R$" + movimentacao.valor.toString()
             if (movimentacao.isDespesaCartao) {
                 holder.binding.txtCardName.visibility = View.VISIBLE
                 holder.binding.txtCardName.text = movimentacao.cartaoCredito.nomeCartao
@@ -54,7 +54,7 @@ class MovimentacaoAdapter(
         } else {
             if (movimentacao.tipo == "r") {
                 holder.binding.textValor.setTextColor(context.resources.getColor(R.color.colorAccentReceita))
-                holder.binding.textValor.text = movimentacao.valor.toString()
+                holder.binding.textValor.text = "+R$" + movimentacao.valor.toString()
 
                 if (movimentacao.isReceitaCartao) {
                     holder.binding.txtCardName.text = movimentacao.cartaoCredito.nomeCartao
