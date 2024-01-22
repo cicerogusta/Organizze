@@ -107,10 +107,10 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
             movimentacao.isReceitaCartao = true
         } else {
             if (isReceitaDinheiro) {
-                movimentacao.isDespesaDinheiro = true
+                movimentacao.isReceitaDinheiro = true
             } else {
                 if (isReceitaPix) {
-                    movimentacao.isDespesaPix = true
+                    movimentacao.isReceitaPix = true
                 }
             }
         }
