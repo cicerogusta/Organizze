@@ -146,7 +146,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:adSize="BANNER"
-            app:adUnitId="ca-app-pub-7902597376494373/8748911144"
+            app:adUnitId="ca-app-pub-7902597376494373/6561731508"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

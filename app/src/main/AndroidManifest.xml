@@ -39,7 +39,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7902597376494373~3238969138" />
+            android:value="ca-app-pub-7902597376494373~6360505235" />
 
         <activity
             android:name=".ui.CadastroActivity"
