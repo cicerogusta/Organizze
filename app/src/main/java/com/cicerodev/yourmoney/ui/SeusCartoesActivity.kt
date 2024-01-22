@@ -31,8 +31,11 @@ class SeusCartoesActivity :
     private fun recuperarListaCartoes() {
         viewModel.returnCards().observe(this) {
             listaCartoes = it
+            if (listaCartoes.isNotEmpty()) {
+                configuraRecyclerViewCartoes()
+            }
 
-            configuraRecyclerViewCartoes()
+
         }
 
     }
