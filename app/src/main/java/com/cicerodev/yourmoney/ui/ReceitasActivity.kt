@@ -22,6 +22,7 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
     private var isReceitaCartao = false
     private var isReceitaDinheiro = false
     private var isReceitaPix = false
+    private  var selectedRadioButton : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +35,21 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+
             when (checkedId) {
                 binding.radioButtonPix.id -> {
                     isReceitaPix = true
+                    binding.radioButtonPix.isActivated = true
                 }
 
                 binding.radioButtonDinheiro.id -> {
                     isReceitaDinheiro = true
+                    binding.radioButtonDinheiro.isActivated = true
                 }
 
                 binding.radioButtonCartao.id -> {
                     isReceitaCartao = true
+                    binding.radioButtonCartao.isActivated = true
 
                 }
             }
@@ -75,6 +80,10 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
             if (binding.editCategoriaReceitas.text.toString().isNotEmpty()) {
                 if (binding.editDescricaoReceitas.text.toString().isNotEmpty()) {
                     if (binding.editTotalReceitas.text.toString().isNotEmpty()) {
+                        if (!binding.radioButtonPix.isActivated && !binding.radioButtonCartao.isActivated && !binding.radioButtonDinheiro.isActivated) {
+                            toast("Selecione o tipo de receita!")
+                            return false
+                        }
                     } else {
                         toast("Preencha o total gasto!")
                         return  false
@@ -118,6 +127,7 @@ class ReceitasActivity : BaseActivity<ReceitasActivityViewModel, ActivityReceita
         atualizarReceita(receitaAtualizada)
         viewModel.salvarReceita(movimentacao)
         resultadoSalvarReceita()
+
     }
 
     private fun atualizarReceita(despesaAtualizada: Double) {

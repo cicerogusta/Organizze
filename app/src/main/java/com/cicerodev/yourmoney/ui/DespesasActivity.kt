@@ -30,6 +30,7 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.editTotalDespasas.addTextChangedListener(MoneyTextWatcher(binding.editTotalDespasas))
@@ -53,17 +54,21 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
         binding.radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             when (checkedId) {
+
                 binding.radioButtonPix.id -> {
                     isDespesaPix = true
+                    binding.radioButtonPix.isActivated = true
                     binding.spinner1.visibility = View.GONE
                 }
 
                 binding.radioButtonDinheiro.id -> {
                     isDespesaDinheiro = true
+                    binding.radioButtonDinheiro.isActivated = true
                     binding.spinner1.visibility = View.GONE
                 }
 
                 binding.radioButtonCartao.id -> {
+                    binding.radioButtonCartao.isActivated = true
                     isDespesaCartao = true
                     binding.spinner1.visibility = View.VISIBLE
                 }
@@ -117,9 +122,8 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
         return if (binding.editDataDespesas.text.toString().isNotEmpty()) {
             if (binding.editCategoriaDespesas.text.toString().isNotEmpty()) {
                 if (binding.editDescricaoDespesas.text.toString().isNotEmpty()) {
-                    if (binding.editTotalDespasas.text.toString().isNotEmpty()) {
-                    } else {
-                        toast("Preencha o total gasto!")
+                    if (!binding.radioButtonPix.isActivated && !binding.radioButtonCartao.isActivated && !binding.radioButtonDinheiro.isActivated) {
+                        toast("Selecione o tipo de despesa!")
                         return false
                     }
                 } else {
@@ -163,13 +167,10 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
                 }
             }
         }
-        val despesaAtualizada = despesaTotal + valorRecuperado
-        atualizarDespesa(despesaAtualizada)
-        viewModel.salvarDespesa(movimentacao)
-        resultadoSalvarDespesa()
-
-
-
+            val despesaAtualizada = despesaTotal + valorRecuperado
+            atualizarDespesa(despesaAtualizada)
+            viewModel.salvarDespesa(movimentacao)
+            resultadoSalvarDespesa()
     }
 
     private fun atualizarDespesa(despesaAtualizada: Double) {
