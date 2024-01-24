@@ -33,7 +33,9 @@ class CartoesAdapter(
         holder.binding.textCardLimit.text = "Limite R$ ${cartao.limiteCartao}"
         holder.binding.button2.setOnClickListener {
             viewModel.removerCartao(cartao)
+            listaCartoes.remove(cartao)
             viewModel.returnCards().value?.remove(cartao)
+            notifyItemRemoved(position)
         }
 
 
