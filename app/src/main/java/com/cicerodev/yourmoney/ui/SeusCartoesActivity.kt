@@ -25,7 +25,13 @@ class SeusCartoesActivity :
         inicializarAnuncio()
         recuperarListaCartoes()
         setupClickListener()
+        recuperaUsuario()
+    }
 
+    private fun recuperaUsuario() {
+        viewModel.user.observe(this) {
+            binding.textView8.text = "Bem-vindo(a), ${it.nome}"
+        }
     }
 
     private fun recuperarListaCartoes() {
