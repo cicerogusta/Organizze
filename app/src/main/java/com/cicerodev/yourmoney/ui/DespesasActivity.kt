@@ -45,7 +45,9 @@ class DespesasActivity : BaseActivity<DespesasActivityViewModel, ActivityDespesa
 
         viewModel.returnCards().observe(this) {
             val cardPosition = binding.spinner1.selectedItemPosition
-            cartaoCredito = it[cardPosition]
+            if (it.isNotEmpty()) {
+                cartaoCredito = it[cardPosition]
+            }
 
 
         }
