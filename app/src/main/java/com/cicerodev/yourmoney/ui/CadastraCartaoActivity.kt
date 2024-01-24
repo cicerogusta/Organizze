@@ -5,16 +5,38 @@ import androidx.activity.viewModels
 import com.cicerodev.yourmoney.base.BaseActivity
 import com.cicerodev.yourmoney.data.model.CartaoCredito
 import com.cicerodev.yourmoney.databinding.ActivityCadastraCartaoBinding
+import com.cicerodev.yourmoney.util.UiState
 import com.cicerodev.yourmoney.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CadastraCartaoActivity : BaseActivity<CadastraCartaoActivityViewModel, ActivityCadastraCartaoBinding>() {
+    private var cartaoCreditoExists: CartaoCredito? = null
     override val viewModel: CadastraCartaoActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setupClickListener()
+        viewModel.returnUser()
+    }
+
+    private fun resultadoCadastroCartao() {
+        viewModel.uiState.observe(this) { state ->
+            when (state) {
+                is UiState.Loading -> {
+                }
+
+                is UiState.Failure -> {
+                    toast(state.error)
+                }
+
+                is UiState.Success -> {
+                    toast(state.data)
+                    finish()
+                }
+            }
+        }
     }
 
     private fun verificaCamposCartao(): Boolean {
@@ -36,12 +58,6 @@ class CadastraCartaoActivity : BaseActivity<CadastraCartaoActivityViewModel, Act
         }
     }
 
-    private fun atualizarCartoesUsuario(cartaoCredito: CartaoCredito) {
-        viewModel.user.observe(this) {
-            it.cartoesCredito.add(cartaoCredito)
-        }
-    }
-
     override fun getViewBinding(): ActivityCadastraCartaoBinding = ActivityCadastraCartaoBinding.inflate(layoutInflater)
 
 
@@ -49,19 +65,11 @@ class CadastraCartaoActivity : BaseActivity<CadastraCartaoActivityViewModel, Act
     override fun setupClickListener() {
         binding.buttonAdicionarCartaoCadastro.setOnClickListener {
 
+            val cartaoCredito = CartaoCredito(binding.editNomeCartaoCadastro.text.toString(), binding.editDataVencCartaoCadastro.text.toString(), binding.editLimiteCartaoCadastro.text.toString())
+
             if (verificaCamposCartao()) {
-                val cartaoCredito = CartaoCredito(binding.editNomeCartaoCadastro.text.toString(), binding.editDataVencCartaoCadastro.text.toString(), binding.editLimiteCartaoCadastro.text.toString())
-                // Obtém os primeiros dois caracteres (índices 0 e 1)
-                val primeiraParte = cartaoCredito.dataVencimento?.substring(0, 2)
-                if (primeiraParte != null) {
-                    if (primeiraParte.toInt() > 12 || primeiraParte.toInt() == 0 ) {
-                        toast("Mês inválido")
-                    } else {
-                        viewModel.cadastrarCartao(cartaoCredito)
-                        atualizarCartoesUsuario(cartaoCredito)
-                        finish()
-                    }
-            }
+                viewModel.cadastrarCartao(cartaoCredito)
+                resultadoCadastroCartao()
 
 
             }

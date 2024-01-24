@@ -154,18 +154,35 @@ class FirebaseRepositoryImp(
         }
     }
 
-    override fun createCard(cartaoCredito: CartaoCredito) {
+    override fun createCard(cartaoCredito: CartaoCredito, result: (UiState<String>) -> Unit) {
+
         val reference = database.reference.child("cartoesCredito")
             .child(getUserId()!!)
-        val push = reference.push()
-        val key = push.key
-        cartaoCredito.key = key!!
-        push.setValue(cartaoCredito)
+       val query = reference.orderByChild("nomeCartao").equalTo(cartaoCredito.nomeCartao)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    result.invoke(UiState.Failure("Este cartão ja foi cadastrado"))
+                } else {
+                    val push = reference.push()
+                    val key = push.key
+                    cartaoCredito.key = key!!
+                    push.setValue(cartaoCredito)
+                    result.invoke(UiState.Success("Cartão registrado com Sucesso"))
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
 
 
     override fun getUser(mtbUser: MutableLiveData<User>) {
+
         val idUsuario = getUserId()!!
         val usuarioRef = database.reference.child("usuarios").child(idUsuario)
         val eventListener = usuarioRef.addValueEventListener(object : ValueEventListener {

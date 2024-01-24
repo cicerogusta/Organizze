@@ -15,7 +15,7 @@ interface FirebaseRepository {
     fun isCurrentUser(): Boolean
     fun saveMovement(movimentacao: Movimentacao, result: (UiState<String>) -> Unit)
 
-    fun createCard(cartaoCredito: CartaoCredito)
+    fun createCard(cartaoCredito: CartaoCredito, result: (UiState<String>) -> Unit)
     fun getUser(mtbUser: MutableLiveData<User>)
     fun updateExpense(despesaAtualizada: Double)
     fun updateRecipe(receitaAtualizada: Double)
